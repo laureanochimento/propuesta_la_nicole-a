@@ -7,6 +7,10 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap');
   
+  * {
+    box-sizing: border-box;
+  }
+
   body, html {
     margin: 0; padding: 0; height: 100%; 
     font-family: 'Montserrat', sans-serif;
@@ -22,47 +26,53 @@
   .slide {
     height: 100vh; position: relative;
     display: flex; flex-direction: column; 
-    justify-content: flex-start;
+    justify-content: space-between; /* Distribuye arriba contenido, abajo navegación */
     align-items: center;
-    padding: 35px 5% 100px 5%; /* Ajuste de padding para mobile */
-    box-sizing: border-box;
-    overflow-y: auto; /* Permite scroll interno si el contenido es más alto que la pantalla en mobile */
+    padding: 30px 5% 30px 5%;
+    overflow-y: auto;
   }
   
-  /* Evitar scrollbar visible pero permitir scroll en slides individuales en mobile */
+  /* Scrollbar oculta para mantener estática la interfaz */
   .slide::-webkit-scrollbar { display: none; }
   .slide { -ms-overflow-style: none; scrollbar-width: none; }
 
   /* Backgrounds */
-  .slide-intro { background: linear-gradient(135deg, #ffffff 0%, #e8f4fc 100%); justify-content: center; padding-top: 0;}
+  .slide-intro { background: linear-gradient(135deg, #ffffff 0%, #e8f4fc 100%); }
   .slide-why { background: #ffffff; }
   .slide-how { background: #f4f9fd; }
   .slide-time { background: #ffffff; }
-  .slide-price { background: linear-gradient(135deg, #0f4c81 0%, #3FA9F5 100%); color: white; justify-content: center; padding-top: 0;}
+  .slide-price { background: linear-gradient(135deg, #0f4c81 0%, #3FA9F5 100%); color: white; }
   
-  h1 { font-size: clamp(2rem, 5vw, 2.8rem); color: #0f4c81; margin-top: 10px; margin-bottom: 10px; text-align: center; font-weight: 800;}
-  h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); color: #3FA9F5; margin-top: 20px; margin-bottom: 25px; text-align: center; font-weight: 700; }
-  .slide-price h2 { color: #ffffff; }
-  p { font-size: clamp(1rem, 2vw, 1.15rem); line-height: 1.5; text-align: center; max-width: 850px; margin-top: 0; margin-bottom: 15px; padding: 0 10px; }
-  
-  /* Grid Layouts - Mobile First */
-  .grid-2, .grid-3, .grid-4 { 
-    display: grid; 
-    grid-template-columns: 1fr; /* 1 columna por defecto en mobile */
-    gap: 15px; 
-    width: 100%; 
-    max-width: 1200px; 
+  /* Contenedor principal de contenido dentro de la slide */
+  .slide-content {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
   }
+
+  h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); color: #0f4c81; margin: 10px 0; text-align: center; font-weight: 800;}
+  h2 { font-size: clamp(1.4rem, 3vw, 2.2rem); color: #3FA9F5; margin: 10px 0 20px 0; text-align: center; font-weight: 700; }
+  .slide-price h2 { color: #ffffff; }
+  p { font-size: clamp(0.95rem, 1.8vw, 1.15rem); line-height: 1.5; text-align: center; max-width: 850px; margin: 0 0 15px 0; }
+  
+  /* Grid Layouts - Responsive */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; width: 100%; max-width: 1000px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; width: 100%; max-width: 1000px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; width: 100%; max-width: 1200px; }
   
   /* Cards */
   .card { 
-    background: white; padding: 15px 20px; border-radius: 12px; 
+    background: white; padding: 18px 20px; border-radius: 12px; 
     box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left: 5px solid #3FA9F5; 
     transition: transform 0.3s ease;
   }
   .card:hover { transform: translateY(-3px); }
   .card h3 { color: #0f4c81; font-size: 1.1rem; margin-top: 0; margin-bottom: 5px; font-weight: 700; }
-  .card p { font-size: 0.95rem; text-align: left; color: #555; margin: 0; }
+  .card p { font-size: 0.92rem; text-align: left; color: #555; margin: 0; }
   .card-icon { font-size: 1.8rem; margin-bottom: 5px; display: block; }
   
   /* Work Cards (Step by step) */
@@ -74,39 +84,38 @@
   .step-card::before {
     content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #3FA9F5;
   }
-  .step-number { font-size: 1rem; font-weight: 800; color: #3FA9F5; margin-bottom: 5px; display: inline-block; background: #e8f4fc; padding: 3px 10px; border-radius: 20px;}
-  .step-card h3 { color: #0f4c81; font-size: 1.05rem; margin: 5px 0; font-weight: 700; }
-  .step-card p { font-size: 0.9rem; color: #555; text-align: center; line-height: 1.4; margin-top: 5px; }
+  .step-number { font-size: 0.95rem; font-weight: 800; color: #3FA9F5; margin-bottom: 5px; display: inline-block; background: #e8f4fc; padding: 3px 10px; border-radius: 20px;}
+  .step-card h3 { color: #0f4c81; font-size: 1rem; margin: 5px 0; font-weight: 700; }
+  .step-card p { font-size: 0.88rem; color: #555; text-align: center; line-height: 1.4; margin-top: 5px; }
 
   /* Timeline */
   .timeline-step { 
-    background: white; padding: 15px 10px; border-radius: 12px; 
+    background: white; padding: 18px 15px; border-radius: 12px; 
     border-top: 6px solid #3FA9F5; text-align: center; 
     box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
   }
-  .timeline-step .days { font-size: 2.2rem; font-weight: 800; color: #3FA9F5; margin: 5px 0; }
-  .timeline-step .days span { font-size: 0.9rem; display: block; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+  .timeline-step .days { font-size: 2.4rem; font-weight: 800; color: #3FA9F5; margin: 5px 0; }
+  .timeline-step .days span { font-size: 0.85rem; display: block; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
   .timeline-step h3 { font-size: 1.1rem; color: #0f4c81; margin: 0; font-weight: 700; }
   
   /* Pricing */
   .price-box { 
     background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); 
-    padding: 25px 20px; border-radius: 20px; text-align: center; 
+    padding: 30px 20px; border-radius: 20px; text-align: center; 
     backdrop-filter: blur(10px); box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-    margin-top: 10px; width: 90%; max-width: 500px;
+    margin: 10px 0; width: 100%; max-width: 500px;
   }
   .price-box h3 { font-size: 1.4rem; margin: 0 0 10px 0; font-weight: 400; }
-  .price { font-size: 4rem; font-weight: 800; margin: 0; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-  .price span { font-size: 1.8rem; vertical-align: top; font-weight: 600; opacity: 0.8; }
-  .terms { display: flex; flex-direction: column; justify-content: center; gap: 15px; margin-top: 25px; }
+  .price { font-size: 4.5rem; font-weight: 800; margin: 0; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+  .price span { font-size: 2rem; vertical-align: top; font-weight: 600; opacity: 0.8; }
+  .terms { display: flex; justify-content: center; gap: 30px; margin-top: 20px; }
   .term-item { display: flex; flex-direction: column; align-items: center; }
-  .term-pct { font-size: 2rem; font-weight: 800; color: #a3d9ff; line-height: 1; margin-bottom: 5px; }
-  .term-desc { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+  .term-pct { font-size: 2.2rem; font-weight: 800; color: #a3d9ff; line-height: 1; margin-bottom: 5px; }
+  .term-desc { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
   
   .kv-image {
-    max-width: 150px; /* Mas chico en mobile */
-    margin-top: 10px;
-    margin-bottom: 15px;
+    max-width: 180px;
+    margin: 10px 0;
     animation: float 6s ease-in-out infinite;
   }
   @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
@@ -117,7 +126,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: scale(0.8); /* Escala en mobile */
   }
 
   .gear-main { animation: spin 8s linear infinite; transform-origin: 80px 70px; }
@@ -131,27 +139,27 @@
   @keyframes spin-reverse { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
   @keyframes pulse-person { 0% { transform: translateY(0); } 100% { transform: translateY(-4px); } }
 
-  /* Navigation Buttons Container */
+  /* Navigation Buttons Container - FLEX POSICIONADO EN CADA SLIDE */
   .nav-container {
-    position: fixed; /* Fijo para que siempre esté visible incluso si hay scroll interno */
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex; gap: 10px; align-items: center;
-    z-index: 10;
-    width: 90%;
+    display: flex; 
+    gap: 15px; 
+    align-items: center;
     justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+    padding-bottom: 10px;
+    flex-shrink: 0; /* Evita colapsarse */
   }
 
   .nav-btn {
     background-color: #3FA9F5; color: white;
-    border: none; padding: 10px 20px;
-    border-radius: 30px; font-size: 0.9rem; font-weight: 700;
+    border: none; padding: 12px 28px;
+    border-radius: 30px; font-size: 0.95rem; font-weight: 700;
     cursor: pointer; box-shadow: 0 5px 15px rgba(63, 169, 245, 0.4);
     transition: all 0.3s ease;
     font-family: 'Montserrat', sans-serif;
-    flex: 1; /* Ocupa el espacio disponible en mobile */
-    max-width: 160px;
+    min-width: 130px;
+    text-align: center;
   }
   .nav-btn:hover { background-color: #0f4c81; transform: translateY(-2px); box-shadow: 0 8px 15px rgba(15, 76, 129, 0.4); }
 
@@ -166,68 +174,56 @@
   .slide-price .nav-btn-prev { background-color: rgba(255,255,255,0.2); color: white; }
   .slide-price .nav-btn-prev:hover { background-color: rgba(255,255,255,0.35); color: white; }
 
-  /* Powered By Fixed Footer - Hidden on mobile */
+  /* Powered By Fixed Footer - Esquina inferior derecha */
   .powered-by {
-    display: none; 
+    position: fixed;
+    bottom: 20px;
+    right: 25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 100;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #666;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    pointer-events: none; /* No interfiere con clicks */
   }
+  .powered-by img { height: 28px; object-fit: contain; }
 
-  /* MEDIA QUERIES PARA ESCRITORIO (Responsive scale-up) */
-  @media (min-width: 768px) {
+  /* MEDIA QUERY PARA DISPOSITIVOS MÓVILES */
+  @media (max-width: 768px) {
     .slide {
-      padding: 35px 10% 100px 10%;
-      overflow-y: visible;
-      justify-content: flex-start;
+      padding: 20px 15px 20px 15px;
     }
-    .slide-intro, .slide-price { justify-content: center; }
-
-    .grid-2 { grid-template-columns: 1fr 1fr; gap: 20px; }
-    .grid-4 { grid-template-columns: repeat(4, 1fr); gap: 20px; }
-    .grid-3 { grid-template-columns: repeat(3, 1fr); gap: 25px; }
-
-    .card { padding: 20px 22px; }
-    .card h3 { font-size: 1.2rem; }
     
-    .step-card { padding: 20px; }
-    
-    .timeline-step { padding: 25px 20px; }
-    .timeline-step .days { font-size: 2.8rem; }
-    
-    .price-box { padding: 40px 70px; max-width: none; width: auto; }
-    .price { font-size: 5.5rem; }
-    .terms { flex-direction: row; gap: 50px; }
-
-    .kv-image { max-width: 200px; }
-    .anim-box { transform: scale(1); margin-top: 25px; }
-
-    .nav-container {
-      bottom: 30px;
-      width: auto;
-      justify-content: center;
+    .anim-box {
+      transform: scale(0.75);
+      margin-top: 5px;
     }
-    .nav-btn { padding: 12px 28px; font-size: 1rem; flex: none; max-width: none; }
+
+    .nav-btn {
+      padding: 10px 18px;
+      font-size: 0.85rem;
+      min-width: 100px;
+    }
+
+    .terms {
+      flex-direction: column;
+      gap: 10px;
+    }
 
     .powered-by {
-      display: flex;
-      position: fixed;
-      bottom: 25px;
-      right: 35px;
-      align-items: center;
-      gap: 10px;
-      z-index: 100;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #666;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
+      display: none; /* Se oculta en pantallas muy pequeñas para ganar espacio */
     }
-    .powered-by img { height: 32px; object-fit: contain; }
   }
 
 </style>
 </head>
 <body>
 
-<!-- Fixed Powered By Footer (Visible only on Desktop) -->
+<!-- Fixed Powered By Footer -->
 <div class="powered-by" id="poweredBy">
   <span>Powered by</span>
   <img src="engine.png" alt="Engine Consulting" onerror="this.style.display='none'">
@@ -237,11 +233,12 @@
 
   <!-- SLIDE 1: PORTADA -->
   <div class="slide slide-intro">
-    <img src="lanico.png" alt="La Nicoleña KV" class="kv-image" onerror="this.style.display='none'">
-    
-    <h1>Ecosistema Proactivo de Gestión Documental</h1>
-    <h2 style="color: #666; margin-top: -5px;">Módulo 1: Centralización y Autodespacho</h2>
-    <p>Propuesta técnica y comercial para la automatización de procesos operativos.</p>
+    <div class="slide-content">
+      <img src="lanico.png" alt="La Nicoleña KV" class="kv-image" onerror="this.style.display='none'">
+      <h1>Ecosistema Proactivo de Gestión Documental</h1>
+      <h2 style="color: #666; margin-top: -5px;">Módulo 1: Centralización y Autodespacho</h2>
+      <p>Propuesta técnica y comercial para la automatización de procesos operativos.</p>
+    </div>
     
     <div class="nav-container">
       <button class="nav-btn" onclick="goToSlide(1)">Comenzar ➔</button>
@@ -250,28 +247,29 @@
 
   <!-- SLIDE 2: POR QUE ES IMPORTANTE -->
   <div class="slide slide-why">
-    <h2>El Impacto Estratégico</h2>
-    
-    <div class="grid-2">
-      <div class="card">
-        <span class="card-icon">🚫</span>
-        <h3>Cero Rebotes en Planta</h3>
-        <p>Evita que los camiones reboten en Acindar o Ternium por documentos vencidos. <strong>Protege la facturación diaria.</strong></p>
-      </div>
-      <div class="card">
-        <span class="card-icon">⏳</span>
-        <h3>Ahorro de Tiempo</h3>
-        <p>Automatiza el 100% de los cruces de Excel y envíos manuales de legajos a los clientes.</p>
-      </div>
-      <div class="card">
-        <span class="card-icon">🧠</span>
-        <h3>Menos Carga Mental</h3>
-        <p>El equipo deja de recordar fechas; el sistema avisa proactivamente antes del problema.</p>
-      </div>
-      <div class="card">
-        <span class="card-icon">🚀</span>
-        <h3>100% Escalable</h3>
-        <p>Prepara la base de datos para la Etapa 2 (Alertas por WhatsApp y lectura de IA/OCR).</p>
+    <div class="slide-content">
+      <h2>El Impacto Estratégico</h2>
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-icon">🚫</span>
+          <h3>Cero Rebotes en Planta</h3>
+          <p>Evita que los camiones reboten en Asindar o Ternium por documentos vencidos. <strong>Protege la facturación diaria.</strong></p>
+        </div>
+        <div class="card">
+          <span class="card-icon">⏳</span>
+          <h3>Ahorro de Tiempo</h3>
+          <p>Automatiza el 100% de los cruces de Excel y envíos manuales de legajos a los clientes.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🧠</span>
+          <h3>Menos Carga Mental</h3>
+          <p>El equipo deja de recordar fechas; el sistema avisa proactivamente antes del problema.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🚀</span>
+          <h3>100% Escalable</h3>
+          <p>Prepara la base de datos para la Etapa 2 (Alertas por WhatsApp y lectura de IA/OCR).</p>
+        </div>
       </div>
     </div>
     
@@ -283,55 +281,56 @@
 
   <!-- SLIDE 3: PASO A PASO + GEAR ANIMATION -->
   <div class="slide slide-how">
-    <h2>Módulos de la Etapa 1</h2>
-    
-    <div class="grid-4">
-      <div class="step-card">
-        <span class="step-number">01</span>
-        <h3>Base Operativa</h3>
-        <p>Alta central de empleados, vehículos y asignación dinámica de cuadrillas.</p>
-      </div>
-      
-      <div class="step-card">
-        <span class="step-number">02</span>
-        <h3>Motor de Reglas</h3>
-        <p>Parametrización exacta de qué documento requiere cada empresa.</p>
+    <div class="slide-content">
+      <h2>Módulos de la Etapa 1</h2>
+      <div class="grid-4">
+        <div class="step-card">
+          <span class="step-number">01</span>
+          <h3>Base Operativa</h3>
+          <p>Alta central de empleados, vehículos y asignación dinámica de cuadrillas.</p>
+        </div>
+        
+        <div class="step-card">
+          <span class="step-number">02</span>
+          <h3>Motor de Reglas</h3>
+          <p>Parametrización exacta de qué documento requiere cada empresa.</p>
+        </div>
+
+        <div class="step-card">
+          <span class="step-number">03</span>
+          <h3>Dashboard</h3>
+          <p>Panel de control con semáforos de vencimientos y alertas rápidas de faltantes.</p>
+        </div>
+
+        <div class="step-card">
+          <span class="step-number">04</span>
+          <h3>Autodespacho</h3>
+          <p>Envío automático a clientes y freno de seguridad si hay documentos vencidos.</p>
+        </div>
       </div>
 
-      <div class="step-card">
-        <span class="step-number">03</span>
-        <h3>Dashboard</h3>
-        <p>Panel de control con semáforos de vencimientos y alertas rápidas de faltantes.</p>
+      <!-- Animación de engranaje girando -->
+      <div class="anim-box">
+        <svg width="200" height="110" viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Big Gear -->
+          <g class="gear-main">
+            <circle cx="80" cy="70" r="36" stroke="#3FA9F5" stroke-width="8" stroke-dasharray="14 8" />
+            <circle cx="80" cy="70" r="18" fill="#3FA9F5" />
+            <circle cx="80" cy="70" r="8" fill="#ffffff" />
+          </g>
+          <!-- Small Gear -->
+          <g class="gear-sub">
+            <circle cx="134" cy="48" r="24" stroke="#0f4c81" stroke-width="6" stroke-dasharray="10 6" />
+            <circle cx="134" cy="48" r="10" fill="#0f4c81" />
+            <circle cx="134" cy="48" r="4" fill="#ffffff" />
+          </g>
+          <!-- Tiny Accent Gear -->
+          <g class="gear-tiny">
+            <circle cx="138" cy="94" r="15" stroke="#80CAFF" stroke-width="5" stroke-dasharray="6 4" />
+            <circle cx="138" cy="94" r="6" fill="#80CAFF" />
+          </g>
+        </svg>
       </div>
-
-      <div class="step-card">
-        <span class="step-number">04</span>
-        <h3>Autodespacho</h3>
-        <p>Envío automático a clientes y freno de seguridad si hay documentos vencidos.</p>
-      </div>
-    </div>
-
-    <!-- Animación de engranaje girando -->
-    <div class="anim-box">
-      <svg width="220" height="130" viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Big Gear -->
-        <g class="gear-main">
-          <circle cx="80" cy="70" r="36" stroke="#3FA9F5" stroke-width="8" stroke-dasharray="14 8" />
-          <circle cx="80" cy="70" r="18" fill="#3FA9F5" />
-          <circle cx="80" cy="70" r="8" fill="#ffffff" />
-        </g>
-        <!-- Small Gear -->
-        <g class="gear-sub">
-          <circle cx="134" cy="48" r="24" stroke="#0f4c81" stroke-width="6" stroke-dasharray="10 6" />
-          <circle cx="134" cy="48" r="10" fill="#0f4c81" />
-          <circle cx="134" cy="48" r="4" fill="#ffffff" />
-        </g>
-        <!-- Tiny Accent Gear -->
-        <g class="gear-tiny">
-          <circle cx="138" cy="94" r="15" stroke="#80CAFF" stroke-width="5" stroke-dasharray="6 4" />
-          <circle cx="138" cy="94" r="6" fill="#80CAFF" />
-        </g>
-      </svg>
     </div>
     
     <div class="nav-container">
@@ -342,61 +341,63 @@
 
   <!-- SLIDE 4: CRONOGRAMA + PLANNER & CLOCK ANIMATION -->
   <div class="slide slide-time">
-    <h2>Cronograma de Implementación</h2>
-    <p>El proyecto se ejecutará en un plazo total de <strong>20 días hábiles</strong>.</p>
-    
-    <div class="grid-3">
-      <div class="timeline-step">
-        <h3>Desarrollo Core</h3>
-        <div class="days">10<span>días hábiles</span></div>
+    <div class="slide-content">
+      <h2>Cronograma de Implementación</h2>
+      <p>El proyecto se ejecutará en un plazo total de <strong>20 días hábiles</strong>.</p>
+      
+      <div class="grid-3">
+        <div class="timeline-step">
+          <h3>Desarrollo Core</h3>
+          <div class="days">10<span>días hábiles</span></div>
+        </div>
+        <div class="timeline-step">
+          <h3>Pruebas (QA)</h3>
+          <div class="days">5<span>días hábiles</span></div>
+        </div>
+        <div class="timeline-step">
+          <h3>Ajustes y Set Up</h3>
+          <div class="days">5<span>días hábiles</span></div>
+        </div>
       </div>
-      <div class="timeline-step">
-        <h3>Pruebas (QA)</h3>
-        <div class="days">5<span>días hábiles</span></div>
+
+      <!-- Animación Persona Planificando + Reloj -->
+      <div class="anim-box">
+        <svg width="220" height="110" viewBox="0 0 260 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Planning Board / Calendar -->
+          <rect x="25" y="20" width="105" height="95" rx="12" fill="#ffffff" stroke="#3FA9F5" stroke-width="3.5" />
+          <rect x="25" y="20" width="105" height="26" rx="12" fill="#3FA9F5" />
+          <circle cx="45" cy="33" r="3.5" fill="#ffffff"/>
+          <circle cx="65" cy="33" r="3.5" fill="#ffffff"/>
+          <circle cx="85" cy="33" r="3.5" fill="#ffffff"/>
+          
+          <!-- Tasks / Checkmarks -->
+          <rect x="42" y="60" width="42" height="6" rx="3" fill="#E2E8F0" />
+          <circle cx="102" cy="63" r="5.5" fill="#3FA9F5" />
+          <path d="M100 63L101.5 64.5L104 62" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+
+          <rect x="42" y="78" width="55" height="6" rx="3" fill="#E2E8F0" />
+          <circle cx="112" cy="81" r="5.5" fill="#0f4c81" />
+          <path d="M110 81L111.5 82.5L114 80" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+
+          <rect x="42" y="96" width="35" height="6" rx="3" fill="#E2E8F0" />
+
+          <!-- Person Figure -->
+          <g class="planner-person">
+            <circle cx="165" cy="52" r="13" fill="#0f4c81"/>
+            <path d="M148 95 C148 76, 182 76, 182 95 Z" fill="#0f4c81"/>
+            <!-- Arm pointing -->
+            <path d="M175 75 Q195 65 200 55" stroke="#0f4c81" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+          </g>
+
+          <!-- Clock / Watch -->
+          <g>
+            <circle cx="212" cy="48" r="22" fill="#ffffff" stroke="#3FA9F5" stroke-width="3.5"/>
+            <circle cx="212" cy="48" r="3" fill="#0f4c81"/>
+            <line x1="212" y1="48" x2="212" y2="36" stroke="#0f4c81" stroke-width="2.5" stroke-linecap="round" />
+            <line class="clock-hand" x1="212" y1="48" x2="222" y2="48" stroke="#3FA9F5" stroke-width="2.5" stroke-linecap="round" />
+          </g>
+        </svg>
       </div>
-      <div class="timeline-step">
-        <h3>Ajustes y Set Up</h3>
-        <div class="days">5<span>días hábiles</span></div>
-      </div>
-    </div>
-
-    <!-- Animación Persona Planificando + Reloj -->
-    <div class="anim-box">
-      <svg width="250" height="130" viewBox="0 0 260 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Planning Board / Calendar -->
-        <rect x="25" y="20" width="105" height="95" rx="12" fill="#ffffff" stroke="#3FA9F5" stroke-width="3.5" />
-        <rect x="25" y="20" width="105" height="26" rx="12" fill="#3FA9F5" />
-        <circle cx="45" cy="33" r="3.5" fill="#ffffff"/>
-        <circle cx="65" cy="33" r="3.5" fill="#ffffff"/>
-        <circle cx="85" cy="33" r="3.5" fill="#ffffff"/>
-        
-        <!-- Tasks / Checkmarks -->
-        <rect x="42" y="60" width="42" height="6" rx="3" fill="#E2E8F0" />
-        <circle cx="102" cy="63" r="5.5" fill="#3FA9F5" />
-        <path d="M100 63L101.5 64.5L104 62" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
-
-        <rect x="42" y="78" width="55" height="6" rx="3" fill="#E2E8F0" />
-        <circle cx="112" cy="81" r="5.5" fill="#0f4c81" />
-        <path d="M110 81L111.5 82.5L114 80" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
-
-        <rect x="42" y="96" width="35" height="6" rx="3" fill="#E2E8F0" />
-
-        <!-- Person Figure -->
-        <g class="planner-person">
-          <circle cx="165" cy="52" r="13" fill="#0f4c81"/>
-          <path d="M148 95 C148 76, 182 76, 182 95 Z" fill="#0f4c81"/>
-          <!-- Arm pointing -->
-          <path d="M175 75 Q195 65 200 55" stroke="#0f4c81" stroke-width="4.5" stroke-linecap="round" fill="none"/>
-        </g>
-
-        <!-- Clock / Watch -->
-        <g>
-          <circle cx="212" cy="48" r="22" fill="#ffffff" stroke="#3FA9F5" stroke-width="3.5"/>
-          <circle cx="212" cy="48" r="3" fill="#0f4c81"/>
-          <line x1="212" y1="48" x2="212" y2="36" stroke="#0f4c81" stroke-width="2.5" stroke-linecap="round" />
-          <line class="clock-hand" x1="212" y1="48" x2="222" y2="48" stroke="#3FA9F5" stroke-width="2.5" stroke-linecap="round" />
-        </g>
-      </svg>
     </div>
     
     <div class="nav-container">
@@ -407,20 +408,22 @@
 
   <!-- SLIDE 5: INVERSION -->
   <div class="slide slide-price">
-    <h2>Inversión - Módulo 1</h2>
-    
-    <div class="price-box">
-      <h3>Valor del Desarrollo</h3>
-      <div class="price"><span>USD</span> 700</div>
+    <div class="slide-content">
+      <h2>Inversión - Módulo 1</h2>
       
-      <div class="terms">
-        <div class="term-item">
-          <div class="term-pct">50%</div>
-          <div class="term-desc">Anticipo Kick-off</div>
-        </div>
-        <div class="term-item">
-          <div class="term-pct">50%</div>
-          <div class="term-desc">Post Set Up</div>
+      <div class="price-box">
+        <h3>Valor del Desarrollo</h3>
+        <div class="price"><span>USD</span> 700</div>
+        
+        <div class="terms">
+          <div class="term-item">
+            <div class="term-pct">50%</div>
+            <div class="term-desc">Anticipo Kick-off</div>
+          </div>
+          <div class="term-item">
+            <div class="term-pct">50%</div>
+            <div class="term-desc">Post Set Up</div>
+          </div>
         </div>
       </div>
     </div>
@@ -440,7 +443,7 @@
     const deck = document.getElementById('deck');
     deck.style.transform = `translateY(-${index * 100}vh)`;
     
-    // Cambia color de Powered By en la ultima slide (Desktop only)
+    // Cambia color de Powered By en la ultima slide
     const poweredBy = document.getElementById('poweredBy');
     if (poweredBy) {
         if (index === 4) {
