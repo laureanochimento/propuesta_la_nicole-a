@@ -1,1 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Comercial - Ecosistema Proactivo de Gestión Documental</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap');
+  
+  body, html {
+    margin: 0; padding: 0; height: 100%; 
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f8f9fa; color: #2c3e50; 
+    overflow: hidden; 
+  }
+  
+  .deck {
+    height: 100vh; 
+    transition: transform 0.6s cubic-bezier(0.86, 0, 0.07, 1);
+  }
+  
+  .slide {
+    height: 100vh; position: relative;
+    display: flex; flex-direction: column; 
+    justify-content: flex-start;
+    align-items: center;
+    padding: 35px 10% 120px 10%;
+    box-sizing: border-box;
+  }
+  
+  /* Backgrounds */
+  .slide-intro { background: linear-gradient(135deg, #ffffff 0%, #e8f4fc 100%); }
+  .slide-why { background: #ffffff; }
+  .slide-how { background: #f4f9fd; }
+  .slide-time { background: #ffffff; }
+  .slide-price { background: linear-gradient(135deg, #0f4c81 0%, #3FA9F5 100%); color: white; }
+  
+  h1 { font-size: 2.8rem; color: #0f4c81; margin-top: 10px; margin-bottom: 10px; text-align: center; font-weight: 800;}
+  h2 { font-size: 2.2rem; color: #3FA9F5; margin-top: 10px; margin-bottom: 25px; text-align: center; font-weight: 700; }
+  .slide-price h2 { color: #ffffff; }
+  p { font-size: 1.15rem; line-height: 1.5; text-align: center; max-width: 850px; margin-top: 0; margin-bottom: 15px; }
+  
+  /* Grid Layouts */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 1000px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%; max-width: 1200px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; width: 100%; max-width: 1000px; }
+  
+  /* Cards */
+  .card { 
+    background: white; padding: 20px 22px; border-radius: 16px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06); border-left: 6px solid #3FA9F5; 
+    transition: transform 0.3s ease;
+  }
+  .card:hover { transform: translateY(-5px); }
+  .card h3 { color: #0f4c81; font-size: 1.2rem; margin-top: 0; margin-bottom: 8px; font-weight: 700; }
+  .card p { font-size: 0.98rem; text-align: left; color: #555; margin: 0; }
+  .card-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+  
+  /* Work Cards (Step by step) */
+  .step-card {
+    background: white; padding: 20px; border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05); text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .step-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #3FA9F5;
+  }
+  .step-number { font-size: 1.1rem; font-weight: 800; color: #3FA9F5; margin-bottom: 8px; display: inline-block; background: #e8f4fc; padding: 4px 10px; border-radius: 20px;}
+  .step-card h3 { color: #0f4c81; font-size: 1.1rem; margin: 8px 0; font-weight: 700; }
+  .step-card p { font-size: 0.95rem; color: #555; text-align: center; line-height: 1.4; margin-top: 8px; }
+
+  /* Timeline */
+  .timeline-step { 
+    background: white; padding: 25px 20px; border-radius: 16px; 
+    border-top: 8px solid #3FA9F5; text-align: center; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08); 
+  }
+  .timeline-step .days { font-size: 2.8rem; font-weight: 800; color: #3FA9F5; margin: 10px 0; }
+  .timeline-step .days span { font-size: 1.1rem; display: block; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+  .timeline-step h3 { font-size: 1.3rem; color: #0f4c81; margin: 0; font-weight: 700; }
+  
+  /* Pricing */
+  .price-box { 
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); 
+    padding: 40px 70px; border-radius: 24px; text-align: center; 
+    backdrop-filter: blur(10px); box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    margin-top: 10px;
+  }
+  .price-box h3 { font-size: 1.8rem; margin: 0 0 15px 0; font-weight: 400; }
+  .price { font-size: 5.5rem; font-weight: 800; margin: 0; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+  .price span { font-size: 2.5rem; vertical-align: top; font-weight: 600; opacity: 0.8; }
+  .terms { display: flex; justify-content: center; gap: 50px; margin-top: 35px; }
+  .term-item { display: flex; flex-direction: column; align-items: center; }
+  .term-pct { font-size: 2.5rem; font-weight: 800; color: #a3d9ff; line-height: 1; margin-bottom: 8px; }
+  .term-desc { font-size: 1.1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+  
+  .kv-image {
+    max-width: 200px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-12px); } 100% { transform: translateY(0px); } }
+
+  /* Animations Area */
+  .anim-box {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .gear-main { animation: spin 8s linear infinite; transform-origin: 80px 70px; }
+  .gear-sub { animation: spin-reverse 5s linear infinite; transform-origin: 132px 50px; }
+  .gear-tiny { animation: spin 4s linear infinite; transform-origin: 138px 92px; }
+
+  .clock-hand { animation: spin 6s linear infinite; transform-origin: 210px 48px; }
+  .planner-person { animation: pulse-person 3s ease-in-out infinite alternate; }
+
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  @keyframes spin-reverse { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
+  @keyframes pulse-person { 0% { transform: translateY(0); } 100% { transform: translateY(-4px); } }
+
+  /* Navigation Buttons Container */
+  .nav-container {
+    position: absolute; bottom: 30px;
+    display: flex; gap: 15px; align-items: center;
+    z-index: 10;
+  }
+
+  .nav-btn {
+    background-color: #3FA9F5; color: white;
+    border: none; padding: 12px 28px;
+    border-radius: 30px; font-size: 1rem; font-weight: 700;
+    cursor: pointer; box-shadow: 0 5px 15px rgba(63, 169, 245, 0.4);
+    transition: all 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .nav-btn:hover { background-color: #0f4c81; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(15, 76, 129, 0.4); }
+
+  .nav-btn-prev {
+    background-color: #e2e8f0; color: #0f4c81;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  .nav-btn-prev:hover { background-color: #cbd5e1; color: #0f4c81; box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+
+  .slide-price .nav-btn { background-color: white; color: #0f4c81; }
+  .slide-price .nav-btn:hover { background-color: #e8f4fc; }
+  .slide-price .nav-btn-prev { background-color: rgba(255,255,255,0.2); color: white; }
+  .slide-price .nav-btn-prev:hover { background-color: rgba(255,255,255,0.35); color: white; }
+
+  /* Powered By Fixed Footer */
+  .powered-by {
+    position: fixed;
+    bottom: 25px;
+    right: 35px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 100;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #666;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .powered-by img {
+    height: 32px;
+    object-fit: contain;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Fixed Powered By Footer -->
+<div class="powered-by" id="poweredBy">
+  <span>Powered by</span>
+  <img src="engine.png" alt="Engine Consulting" onerror="this.style.display='none'">
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1: PORTADA -->
+  <div class="slide slide-intro">
+    <img src="lanico.png" alt="La Nicoleña KV" class="kv-image" onerror="this.style.display='none'">
+    
+    <h1>Ecosistema Proactivo de Gestión Documental</h1>
+    <h2 style="color: #666; font-size: 1.5rem; margin-top: -5px;">Módulo 1: Centralización y Autodespacho</h2>
+    <p>Propuesta técnica y comercial para la automatización de procesos operativos.</p>
+    
+    <div class="nav-container">
+      <button class="nav-btn" onclick="goToSlide(1)">Comenzar ➔</button>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: POR QUE ES IMPORTANTE -->
+  <div class="slide slide-why">
+    <h2>El Impacto Estratégico</h2>
+    
+    <div class="grid-2">
+      <div class="card">
+        <span class="card-icon">🚫</span>
+        <h3>Cero Rebotes en Planta</h3>
+        <p>Evita que los camiones reboten en Asindar o Ternium por documentos vencidos. <strong>Protege la facturación diaria.</strong></p>
+      </div>
+      <div class="card">
+        <span class="card-icon">⏳</span>
+        <h3>Ahorro de Tiempo</h3>
+        <p>Automatiza el 100% de los cruces de Excel y envíos manuales de legajos a los clientes.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🧠</span>
+        <h3>Menos Carga Mental</h3>
+        <p>El equipo deja de recordar fechas; el sistema avisa proactivamente antes del problema.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🚀</span>
+        <h3>100% Escalable</h3>
+        <p>Prepara la base de datos para la Etapa 2 (Alertas por WhatsApp y lectura de IA/OCR).</p>
+      </div>
+    </div>
+    
+    <div class="nav-container">
+      <button class="nav-btn nav-btn-prev" onclick="goToSlide(0)">← Anterior</button>
+      <button class="nav-btn" onclick="goToSlide(2)">Ver Módulos ➔</button>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: PASO A PASO + GEAR ANIMATION -->
+  <div class="slide slide-how">
+    <h2>Módulos de la Etapa 1</h2>
+    
+    <div class="grid-4">
+      <div class="step-card">
+        <span class="step-number">01</span>
+        <h3>Base Operativa</h3>
+        <p>Alta central de empleados, vehículos y asignación dinámica de cuadrillas.</p>
+      </div>
+      
+      <div class="step-card">
+        <span class="step-number">02</span>
+        <h3>Motor de Reglas</h3>
+        <p>Parametrización exacta de qué documento requiere cada empresa (cliente).</p>
+      </div>
+
+      <div class="step-card">
+        <span class="step-number">03</span>
+        <h3>Dashboard</h3>
+        <p>Panel de control con semáforos de vencimientos y alertas rápidas de faltantes.</p>
+      </div>
+
+      <div class="step-card">
+        <span class="step-number">04</span>
+        <h3>Autodespacho</h3>
+        <p>Envío automático a clientes y freno de seguridad si hay documentos vencidos.</p>
+      </div>
+    </div>
+
+    <!-- Animación de engranaje girando -->
+    <div class="anim-box">
+      <svg width="220" height="130" viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Big Gear -->
+        <g class="gear-main">
+          <circle cx="80" cy="70" r="36" stroke="#3FA9F5" stroke-width="8" stroke-dasharray="14 8" />
+          <circle cx="80" cy="70" r="18" fill="#3FA9F5" />
+          <circle cx="80" cy="70" r="8" fill="#ffffff" />
+        </g>
+        <!-- Small Gear -->
+        <g class="gear-sub">
+          <circle cx="134" cy="48" r="24" stroke="#0f4c81" stroke-width="6" stroke-dasharray="10 6" />
+          <circle cx="134" cy="48" r="10" fill="#0f4c81" />
+          <circle cx="134" cy="48" r="4" fill="#ffffff" />
+        </g>
+        <!-- Tiny Accent Gear -->
+        <g class="gear-tiny">
+          <circle cx="138" cy="94" r="15" stroke="#80CAFF" stroke-width="5" stroke-dasharray="6 4" />
+          <circle cx="138" cy="94" r="6" fill="#80CAFF" />
+        </g>
+      </svg>
+    </div>
+    
+    <div class="nav-container">
+      <button class="nav-btn nav-btn-prev" onclick="goToSlide(1)">← Anterior</button>
+      <button class="nav-btn" onclick="goToSlide(3)">Ver Tiempos ➔</button>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: CRONOGRAMA + PLANNER & CLOCK ANIMATION -->
+  <div class="slide slide-time">
+    <h2>Cronograma de Implementación</h2>
+    <p style="margin-bottom: 20px;">El proyecto se ejecutará en un plazo total de <strong>20 días hábiles</strong>.</p>
+    
+    <div class="grid-3">
+      <div class="timeline-step">
+        <h3>Desarrollo Core</h3>
+        <div class="days">10<span>días hábiles</span></div>
+      </div>
+      <div class="timeline-step">
+        <h3>Pruebas (QA)</h3>
+        <div class="days">5<span>días hábiles</span></div>
+      </div>
+      <div class="timeline-step">
+        <h3>Ajustes y Set Up</h3>
+        <div class="days">5<span>días hábiles</span></div>
+      </div>
+    </div>
+
+    <!-- Animación Persona Planificando + Reloj -->
+    <div class="anim-box">
+      <svg width="250" height="130" viewBox="0 0 260 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Planning Board / Calendar -->
+        <rect x="25" y="20" width="105" height="95" rx="12" fill="#ffffff" stroke="#3FA9F5" stroke-width="3.5" />
+        <rect x="25" y="20" width="105" height="26" rx="12" fill="#3FA9F5" />
+        <circle cx="45" cy="33" r="3.5" fill="#ffffff"/>
+        <circle cx="65" cy="33" r="3.5" fill="#ffffff"/>
+        <circle cx="85" cy="33" r="3.5" fill="#ffffff"/>
+        
+        <!-- Tasks / Checkmarks -->
+        <rect x="42" y="60" width="42" height="6" rx="3" fill="#E2E8F0" />
+        <circle cx="102" cy="63" r="5.5" fill="#3FA9F5" />
+        <path d="M100 63L101.5 64.5L104 62" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+
+        <rect x="42" y="78" width="55" height="6" rx="3" fill="#E2E8F0" />
+        <circle cx="112" cy="81" r="5.5" fill="#0f4c81" />
+        <path d="M110 81L111.5 82.5L114 80" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+
+        <rect x="42" y="96" width="35" height="6" rx="3" fill="#E2E8F0" />
+
+        <!-- Person Figure -->
+        <g class="planner-person">
+          <circle cx="165" cy="52" r="13" fill="#0f4c81"/>
+          <path d="M148 95 C148 76, 182 76, 182 95 Z" fill="#0f4c81"/>
+          <!-- Arm pointing -->
+          <path d="M175 75 Q195 65 200 55" stroke="#0f4c81" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+        </g>
+
+        <!-- Clock / Watch -->
+        <g>
+          <circle cx="212" cy="48" r="22" fill="#ffffff" stroke="#3FA9F5" stroke-width="3.5"/>
+          <circle cx="212" cy="48" r="3" fill="#0f4c81"/>
+          <line x1="212" y1="48" x2="212" y2="36" stroke="#0f4c81" stroke-width="2.5" stroke-linecap="round" />
+          <line class="clock-hand" x1="212" y1="48" x2="222" y2="48" stroke="#3FA9F5" stroke-width="2.5" stroke-linecap="round" />
+        </g>
+      </svg>
+    </div>
+    
+    <div class="nav-container">
+      <button class="nav-btn nav-btn-prev" onclick="goToSlide(2)">← Anterior</button>
+      <button class="nav-btn" onclick="goToSlide(4)">Ver Inversión ➔</button>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: INVERSION -->
+  <div class="slide slide-price">
+    <h2>Inversión - Módulo 1</h2>
+    
+    <div class="price-box">
+      <h3>Valor del Desarrollo</h3>
+      <div class="price"><span>USD</span> 700</div>
+      
+      <div class="terms">
+        <div class="term-item">
+          <div class="term-pct">50%</div>
+          <div class="term-desc">Anticipo Kick-off</div>
+        </div>
+        <div class="term-item">
+          <div class="term-pct">50%</div>
+          <div class="term-desc">Post Set Up</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="nav-container">
+      <button class="nav-btn nav-btn-prev" onclick="goToSlide(3)">← Anterior</button>
+      <button class="nav-btn" onclick="goToSlide(0)">Volver al inicio ↺</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let currentSlide = 0;
+  function goToSlide(index) {
+    currentSlide = index;
+    const deck = document.getElementById('deck');
+    deck.style.transform = `translateY(-${index * 100}vh)`;
+    
+    // Cambia color de Powered By en la ultima slide
+    const poweredBy = document.getElementById('poweredBy');
+    if (index === 4) {
+      poweredBy.style.color = '#ffffff';
+    } else {
+      poweredBy.style.color = '#666666';
+    }
+  }
+</script>
+
+</body>
+</html>
 
